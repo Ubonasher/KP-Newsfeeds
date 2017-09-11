@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"> 
+
+    <ui:composition template="/template.xhtml">
+        <h:head>
+        </h:head> 
+        <ui:define name="content">
+            <h:form id="loginForm"  >
+                <fieldset class="fieldsetLogin">
+                    <legend align="center"><i>Войти в NewsFeeds</i></legend>
+                    <div  class="loginIcons">
+                        <h:commandLink action="GoToVKlogin" title="ВКонтакте" id="vkLogin" >
+                            <img class="" src="http://www.trafficrules.com.ua/habrapack/vk.png" alt="ВКонтакте" />
+                        </h:commandLink>
+
+                        <h:commandLink action="#{fblogin.authorize()}" title="FaceBook" id="fbLogin" >
+                            <img src="http://www.trafficrules.com.ua/habrapack/facebook.png" alt="FaceBook" />
+                        </h:commandLink>
+
+                        <h:commandLink action="#{mrlogin.authorize()}" title="Мой мир" id="mRLogin" >
+                            <img src="http://www.trafficrules.com.ua/habrapack/mail_ru.png" alt="Мой мир" />
+                        </h:commandLink>
+
+                        <h:commandLink action="#{yalogin.authorize()}" title="Яндекс" id="yALogin" >
+                            <img src="http://www.trafficrules.com.ua/habrapack/yandex.png" alt="Яндекс" />
+                        </h:commandLink>
+
+                        <h:commandLink action="#{odlogin.authorize()}" title="Одноклассники" id="oDLogin" >
+                            <img src="http://www.trafficrules.com.ua/habrapack/ok.png" alt="Одноклассники" />
+                        </h:commandLink>
+
+                        <h:commandLink action="#{goologin.authorize()}" title="Google" id="gooLogin" >
+                            <img src="http://www.trafficrules.com.ua/habrapack/google.png" alt="Google" />
+                        </h:commandLink>
+
+                        <h:commandLink action="#{twlogin.authorize()}" title="Twitter" id="twLogin" >
+                            <img src="http://www.trafficrules.com.ua/habrapack/twitter.png" alt="Twitter" />
+                        </h:commandLink>
+
+                        <h:commandLink action="#{lilogin.authorize()}" title="LinkedId" id="liLogin" >
+                            <img src="http://www.trafficrules.com.ua/habrapack/linkedin.png" alt="LinkedIn" />
+                        </h:commandLink>
+
+                    </div>
+                </fieldset>	
+            </h:form> 
+        </ui:define> 
+    </ui:composition>
+</html>
+

@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"> 
+
+    <ui:composition template="/template.xhtml">
+        <h:head>
+        </h:head> 
+        <ui:define name="content">
+            <h:form id="loginForm"  >
+                <fieldset class="fieldsetLogin">
+                    <legend align="center"><i>Добавить/Заменить аккаунт</i></legend>
+                    <div  class="loginIcons">
+                        <h:commandLink action="AddVk" title="ВКонтакте" id="vkLogin" >
+                            <img class="" src="http://www.trafficrules.com.ua/habrapack/vk.png" alt="ВКонтакте" />
+                        </h:commandLink>
+
+                        <h:commandLink action="#{twlogin.addacc(core.profile)}" title="Twitter" id="twLogin" >
+                            <img src="http://www.trafficrules.com.ua/habrapack/twitter.png" alt="Twitter" />
+                        </h:commandLink>
+
+                    </div>
+                </fieldset>	
+            </h:form> 
+        </ui:define> 
+    </ui:composition>
+</html>
+
+

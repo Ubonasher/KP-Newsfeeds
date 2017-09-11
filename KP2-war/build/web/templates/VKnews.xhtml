@@ -1,0 +1,182 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <h:head>
+        <title>Facelet Title</title>
+        <h:outputStylesheet library="css" name="style_main.css"  />
+    </h:head>
+    <h:body>
+        <ui:composition>
+            <c:if test="${core.newsVk.nfslist != null}">
+
+                <c:forEach var="nwVk" items="${core.newsVk.nfslist}" >
+                    <div class="brsl"/>
+                    <div class="postVk">
+                        <div class="postVkheder">
+                            <div>
+                                <img style="padding-right: 20px" src="http://www.trafficrules.com.ua/habrapack/vk.png" alt="Vk" />
+                            </div>
+                            <div style="padding-right: 10px;"><img src="#{core.getAvatar(nwVk.source_id)}"/></div>
+                            <div class="tweethedernophoto">
+                                <div><h:outputText value="#{core.getFN(nwVk.source_id)}"/> &nbsp; <h:outputText value="#{core.getLN(nwVk.source_id)}"/><br/></div>
+                                <div><h:outputText value="#{nwVk.ndate}"/></div>
+                            </div>
+
+
+                            <c:if test="${nwVk.copy_owner_id != null}">
+                                <div style="padding-left: 10px; padding-right: 10px;"><h1>REPOST</h1></div>
+                                <div style="padding-right: 10px;"><img src="#{core.getAvatar(nwVk.copy_owner_id)}"/></div>
+                                <div class="postVkhedernophoto">
+                                    <div><h:outputText value="#{core.getFN(nwVk.copy_owner_id)}"/> &nbsp; <h:outputText value="#{core.getLN(nwVk.copy_owner_id)}"/><br/></div>
+                                    <div><h:outputText value="#{nwVk.ncopy_post_date}"/></div>
+                                </div>
+                            </c:if>
+                        </div>
+
+
+                        <div class="postVkbody">
+                            <c:if test="${nwVk.post_type.toString() eq 'copy'}">
+                                <div>
+                                    #{nwVk.copy_text}
+                                </div>
+                            </c:if>
+                            <c:if test="${nwVk.text != null}">
+                                <c:if test="${nwVk.post_type.toString() eq 'copy'}">
+                                    <h:form  id="tn">
+                                        <div class="repost">
+                                            <c:if test="${core.tempindex1 == 0}">     
+                                                <c:forEach var="txt" items="${core.getTextStatus(nwVk.text)}" varStatus="loop">
+                                                    <c:if test="${loop.index != 5}">                                                    
+                                                        || #{txt}
+                                                    </c:if>
+                                                    <c:if test="${txt.toString() eq 'nextn'}">                                                    
+                                                        <h:commandLink value = "Читать далее">
+                                                            <f:ajax event="click" render="@form" listener="${core.setTempindex1(1)}" />
+                                                        </h:commandLink>
+                                                    </c:if>
+                                                    <br/>
+                                                </c:forEach>
+                                            </c:if>
+                                            <c:if test="${core.tempindex1 == 1}">     
+                                                <c:forEach var="txt" items="${core.getExtendedTextStatus(nwVk.text)}" varStatus="loop">
+                                                    || #{txt}
+                                                    <br/>
+                                                </c:forEach>
+                                                ${core.setTempindex1(0)}
+                                                <h:commandLink value = "Скрыть">
+                                                    <f:ajax event="click" render="@form"/>
+                                                </h:commandLink>
+                                            </c:if>
+                                        </div>
+                                    </h:form>
+                                </c:if>
+                                <c:if test="${nwVk.post_type.toString() eq 'post'}">
+                                    <h:form  id="tn">
+                                        <div>
+                                            <c:if test="${core.tempindex1 == 0}">     
+                                                <c:forEach var="txt" items="${core.getTextStatus(nwVk.text)}" varStatus="loop">
+                                                    <c:if test="${loop.index != 5}">                                                    
+                                                        #{txt}
+                                                    </c:if>
+                                                    <c:if test="${txt.toString() eq 'nextn'}">                                                    
+                                                        <h:commandLink value = "Читать далее">
+                                                            <f:ajax event="click" render="@form" listener="${core.setTempindex1(1)}" />
+                                                        </h:commandLink>
+                                                    </c:if>
+                                                    <br/>
+                                                </c:forEach>
+                                            </c:if>
+                                            <c:if test="${core.tempindex1 == 1}">     
+                                                <c:forEach var="txt" items="${core.getExtendedTextStatus(nwVk.text)}" varStatus="loop">
+                                                    #{txt}
+                                                    <br/>
+                                                </c:forEach>
+                                                ${core.setTempindex1(0)}
+                                                <h:commandLink value = "Скрыть">
+                                                    <f:ajax event="click" render="@form"/>
+                                                </h:commandLink>
+                                            </c:if>
+                                        </div>
+                                    </h:form>
+                                </c:if>
+                            </c:if>
+
+
+                            <c:if test="${nwVk.atts != null}">
+                                <div class="postVkbodyatts">
+                                    <c:forEach var="att" items="${nwVk.atts}"  varStatus="loop">  
+
+                                        <c:if test="${att.type.toString() eq 'link'}">
+                                            <div class="linkatt">
+                                                <div style="padding-bottom: 5px; text-align: center;">
+                                                    <a  target="_blank" href="${att.url}"><h4>${att.title}</h4></a>
+                                                </div>
+                                                <c:if test="${att.image_src != null}">
+                                                    <div>
+                                                        <c:if test="${att.image_big != null}">
+                                                            <a target="_blank" href="${att.url}">
+                                                                <img  src="${att.image_big}" alt="${att.url}"/>
+                                                            </a>
+                                                        </c:if>
+                                                        <c:if test="${att.image_big == null}">
+                                                            <a target="_blank" href="${att.url}">
+                                                                <img  src="${att.image_src}" alt="${att.url}"/>
+                                                            </a>
+                                                        </c:if>
+                                                    </div>
+                                                </c:if>
+                                                <c:if test="${att.image_src == null}">
+                                                    <div style="min-width: 60vw; text-align: center;">
+                                                        <a target="_blank" href="${att.url}">${att.url} </a>
+                                                    </div>
+                                                </c:if>
+
+
+
+                                            </div>
+                                        </c:if>
+
+                                        <c:if test="${att.type.toString() eq 'photo'}">     
+                                            <c:if test="${loop.index == 0}">
+                                                <div style="min-width: 55vw;text-align: center;">
+                                                    <img src="${att.src_big}"/>
+                                                </div>
+                                            </c:if>
+
+                                            <c:if test="${loop.index != 0}">
+                                                <div class="atts2">
+                                                    <img src="${att.src_big}"/>
+                                                </div>
+                                            </c:if>
+                                        </c:if>
+
+                                        <c:if test="${att.type.toString() eq 'video'}">
+                                            <c:if test="${loop.index == 0}">
+                                                <div>
+                                                    <iframe src="${att.player}" frameborder="0" allowfullscreen="true"></iframe>
+                                                </div>
+                                            </c:if>
+
+                                            <c:if test="${loop.index != 0}">
+                                                <div class="atts2">
+                                                    <iframe src="${att.player}" frameborder="0" allowfullscreen="true"></iframe>
+                                                </div>
+                                            </c:if>
+                                        </c:if>
+
+                                    </c:forEach>
+                                </div>
+                            </c:if>
+
+                        </div>
+                    </div>
+                </c:forEach> 
+            </c:if>
+        </ui:composition>
+    </h:body>
+</html>

@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"> 
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="content">            
+            <h:form styleClass="getATvk">  
+                <a  target="_blank" href="#{prop.getAccessTokenURL}"><i>Получить access_token</i></a> <br/><br/>
+                <h:inputText id="access_token" value="#{vklogin.access_token}" required="true" requiredMessage="Введите асдресную строку из открывшегося в новой вкладке окна">
+                    <f:validator validatorId="AccessTokenValidator"/>
+                </h:inputText>  
+                <h:commandButton action="#{vklogin.authorize()}" value="Отправить access_token"/><br/><br/>
+                <h:message for="access_token"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

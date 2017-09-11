@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <h:head>
+        <title>Facelet Title</title>
+        <h:outputStylesheet library="css" name="style_main.css"  />
+    </h:head>
+    <h:body>
+        <ui:composition>
+
+            <c:if test="${core.newsTw != null}">
+                <c:forEach var="nw" items="${core.newsTw}" >
+                    <div class="brsl"/>
+                    <div class="tweet">
+                        <div class="tweetheder">
+                            <div>
+                                <img style="padding-right: 20px" src="http://www.trafficrules.com.ua/habrapack/twitter.png" alt="Twitter" />
+                            </div>
+                            <div style="padding-right: 10px;"><img src="#{nw.user.profileImageURL}"/></div>
+                            <div class="tweethedernophoto">
+                                <div><h:outputText value="#{nw.user.name}"/> &nbsp; @<h:outputText value="#{nw.user.screenName}"/><br/></div>
+                                <div><h:outputText value="#{nw.createdAt}"/></div>
+                            </div>
+                            <c:if test="${nw.retweetedStatus != null}">
+                                <div style="padding-left: 10px; padding-right: 10px;"><h1>RT</h1></div>
+                                <div style="padding-right: 10px;"><img src="#{nw.retweetedStatus.user.profileImageURL}"/></div>
+                                <div class="tweethedernophoto">
+                                    <div><h:outputText value="#{nw.retweetedStatus.user.name}"/> &nbsp; @<h:outputText value="#{nw.retweetedStatus.user.screenName}"/><br/></div>
+                                    <div><h:outputText value="#{nw.retweetedStatus.createdAt}"/></div>
+                                </div>
+                            </c:if>
+                        </div>
+
+
+                        <div class="tweetbody">
+                            <c:if test="${nw.URLEntities.stream().count() == 0}">
+                                <div>
+                                    #{nw.text}
+                                </div>
+                            </c:if>
+
+
+                            <c:if test="${nw.URLEntities.stream().count() != 0}">
+                                <div>
+                                    <c:forEach var="urlatt" items="${nw.URLEntities}" varStatus="loop">
+
+                                        <c:if test="${loop.index == 0}" >
+                                            #{nw.text.substring(0,urlatt.start)}    
+                                            #{core.setTempindex(urlatt.end)}
+                                        </c:if>    
+
+                                        <c:if test="${loop.index lt nw.URLEntities.stream().count() and loop.index != 0}">
+                                            #{nw.text.substring(core.tempindex ,urlatt.start)}
+                                            #{core.setTempindex(urlatt.end)}   
+                                        </c:if>    
+
+                                        <a  target="_blank" href="#{urlatt.expandedURL}"><i>#{urlatt.displayURL}</i></a>                                                
+
+                                        <c:if test="${loop.index+1 == nw.URLEntities.stream().count()}" >
+                                            #{nw.text.substring(urlatt.end)}
+                                        </c:if>                                     
+                                    </c:forEach>
+                                </div>
+                            </c:if>
+
+                            <br/>
+
+                            <c:if test="${nw.extendedMediaEntities.stream().count() == 1 }" >
+                                <c:forEach var="att" items="${nw.extendedMediaEntities}" varStatus="loop">
+                                    <div class="tweetbodyimg">
+                                        <c:if test="${att.type.toString() eq 'video' }">                                                    
+                                            <video controls="controls" poster="${att.mediaURL}">
+                                                <c:forEach var="video" items="${att.videoVariants}">
+                                                    <source src="${video.url}" type='${video.contentType}'></source>
+                                                    Тег video не поддерживается вашим браузером.
+                                                </c:forEach>
+                                            </video>
+                                        </c:if>
+                                        <c:if test="${att.type.toString() eq 'photo' }">
+                                            <img src="${att.mediaURL}"/>
+                                        </c:if>   
+                                    </div>
+                                </c:forEach>
+                            </c:if>
+
+                            <c:if test="${nw.extendedMediaEntities.stream().count() > 1}">
+                                <div class="tweetbodyimg">
+                                    <c:forEach var="att" items="${nw.extendedMediaEntities}" varStatus="loop" >
+                                        <c:if test="${ loop.index == 0 }">
+                                            <div>
+                                                <c:if test="${att.type.toString() eq 'video' }">                                                    
+                                                    <video controls="controls" poster="${att.mediaURL}">
+                                                        <c:forEach var="video" items="${att.videoVariants}">
+                                                            <source src="${video.url}" type='${video.contentType}'></source>
+                                                            Тег video не поддерживается вашим браузером.
+                                                        </c:forEach>
+                                                    </video>
+                                                </c:if>
+                                                <c:if test="${att.type.toString() eq 'photo' }">
+                                                    <img src="${att.mediaURL}"/>
+                                                </c:if>     
+                                            </div>
+                                        </c:if>
+                                    </c:forEach>
+                                </div>
+
+                                <div class="tweetbodyimg">
+                                    <c:forEach var="att" items="${nw.extendedMediaEntities}" varStatus="loop" >
+                                        <c:if test="${ loop.index > 0 }">
+                                            <c:if test="${att.type.toString() eq 'video' }">     
+                                                <div>
+                                                    <video controls="controls" poster="${att.mediaURL}">
+                                                        <c:forEach var="video" items="${att.videoVariants}">
+                                                            <source src="${video.url}" type='${video.contentType}'></source>
+                                                            Тег video не поддерживается вашим браузером.
+                                                        </c:forEach>
+                                                    </video>
+                                                </div>
+                                            </c:if>
+                                            <c:if test="${att.type.toString() eq 'photo' }">
+                                                <div>
+                                                    <img style="max-width: 200px;" src="${att.mediaURL}"/>
+                                                </div>
+                                            </c:if> 
+                                        </c:if>
+                                    </c:forEach>
+                                </div>
+                            </c:if>
+                        </div>
+                    </div>
+                </c:forEach> 
+            </c:if>
+
+
+        </ui:composition>
+    </h:body>
+</html>
